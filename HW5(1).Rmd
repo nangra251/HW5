@@ -1,0 +1,51 @@
+---
+title: "HW5(1)"
+output: html_document
+date: "2026-03-20"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Loading Libraries
+
+
+```library(ggplot2)
+library(maps)
+library(mapdata)
+library(dplyr)
+```
+
+## Getting Appropriate dataframes
+
+```
+us <- map_data('state')
+cali <- us %>%
+  filter(region == "california")
+```
+
+## Generate Base Map of California
+
+```
+ggplot(data = cali, aes(x=long, y=lat), group = group) + 
+  geom_polygon(fill = 'blue', color = 'white') + 
+  coord_fixed(1.3)
+```
+
+## Load all the rda file that has the wind turbine points
+```
+load("/Users/neilangra/Desktop/Rscripts/wind_turbines.rda")
+ls()
+new <- states %>%
+  filter(region == "california")
+```
+
+## Add those points to the map
+```
+ggplot(data = cali, aes(x=long, y=lat), group = group) + 
+  geom_polygon(fill = 'blue', color = 'white') + 
+  coord_fixed(1.3) + 
+  geom_point(data = new, aes(x=long, y=lat, group =group), color = 'red', size = .5, alpha = .5)
+
+```
